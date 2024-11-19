@@ -2,16 +2,26 @@ aws iam list-users
 aws iam list-instance-profiles
 aws iam delete-instance-profile --instance-profile-name ec2Deployer
 aws iam delete-instance-profile --instance-profile-name ecs-instance-profile
+
+
+aws iam list-roles --query "Roles[?CreateDate >= '2024-11-16']" --output json
+aws iam delete-role --role-name ecs-instance-role
+aws iam delete-role --role-name ec2Deployer-role
+aws iam delete-role --role-name ecs-task-role
+
+
 aws ecs list-clusters
+aws rds describe-db-clusters
+aws rds describe-db-instances
 aws rds delete-db-subnet-group
 aws secretsmanager list-secrets
-aws rds describe-db-instances
+
 aws iam list-policies --query "Policies[?CreateDate >= '2024-11-16']" --output json
-aws iam list-roles --query "Roles[?CreateDate >= '2024-11-16']" --output json
-aws secretsmanager delete-secret \                                        
-    --secret-id RDS_CREDS \   
-    --force-delete-without-recovery                                
+
+ aws secretsmanager delete-secret  --secret-id RDS_CREDS --force-delete-without-recovery                          
 
 aws rds describe-db-subnet-groups
 aws rds delete-db-subnet-group --db-subnet-group-name "database subnets"
 
+aws autoscaling describe-auto-scaling-instances
+aws autoscaling delete-auto-scaling-group --auto-scaling-group-name ECS-lab-asg
